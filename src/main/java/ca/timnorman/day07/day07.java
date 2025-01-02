@@ -14,13 +14,13 @@ public class day07 {
         System.out.println("Part 1: " + sumPossibleEquations(equations));
     }
 
-    private static int sumPossibleEquations(List<String> equations) {
-        int sumOfEquations = 0;
+    private static long sumPossibleEquations(List<String> equations) {
+        long sumOfEquations = 0;
         for (String equation: equations) {
             String[] splitString = equation.split(":");
-            int targetValue = Integer.parseInt(splitString[0]);
-            int[] numbers = Arrays.stream(splitString[1].trim().split(" "))
-                    .mapToInt(Integer::parseInt)
+            long targetValue = Long.parseLong(splitString[0]);
+            long[] numbers = Arrays.stream(splitString[1].trim().split(" "))
+                    .mapToLong(Long::parseLong)
                     .toArray();
 
             if (isEquationPossible(targetValue, numbers)) {
@@ -30,11 +30,11 @@ public class day07 {
         return sumOfEquations;
     }
 
-    private static boolean isEquationPossible(int targetValue, int[] numbers) {
+    private static boolean isEquationPossible(long targetValue, long[] numbers) {
         return checkOperations(targetValue, numbers, 0, 0);
     }
 
-    private static boolean checkOperations(int targetValue, int[] numbers, int currentValue, int index) {
+    private static boolean checkOperations(long targetValue, long[] numbers, long currentValue, int index) {
         if (index == numbers.length) {
             return targetValue == currentValue;
         }
@@ -42,11 +42,11 @@ public class day07 {
                 testMultiplication(targetValue, currentValue, numbers, index);
     }
 
-    private static boolean testAddition(int targetValue, int currentValue, int[] numbers, int index) {
+    private static boolean testAddition(long targetValue, long currentValue, long[] numbers, int index) {
         return checkOperations(targetValue, numbers, currentValue + numbers[index], index + 1);
     }
 
-    private static boolean testMultiplication(int targetValue, int currentValue, int[] numbers, int index) {
+    private static boolean testMultiplication(long targetValue, long currentValue, long[] numbers, int index) {
         return checkOperations(targetValue, numbers, currentValue * numbers[index], index + 1);
     }
 }
