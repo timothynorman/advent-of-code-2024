@@ -4,6 +4,7 @@ import ca.timnorman.utils.InputReader;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.LongStream;
 
 public class day07 {
 
@@ -11,7 +12,7 @@ public class day07 {
         InputReader inputReader = new InputReader("src/main/java/ca/timnorman/day07/input");
         List<String> equations = inputReader.toLines();
 
-        System.out.println("Part 1: " + sumPossibleEquations(equations));
+        System.out.println("Sum of possible equations: " + sumPossibleEquations(equations));
     }
 
     private static long sumPossibleEquations(List<String> equations) {
@@ -39,7 +40,17 @@ public class day07 {
             return targetValue == currentValue;
         }
         return testAddition(targetValue, currentValue, numbers, index) ||
-                testMultiplication(targetValue, currentValue, numbers, index);
+                testMultiplication(targetValue, currentValue, numbers, index) ||
+                testConcatenation(targetValue, currentValue, numbers, index);
+    }
+
+    private static boolean testConcatenation(long targetValue, long currentValue, long[] numbers, int index) {
+        String concatString = LongStream.of(currentValue, numbers[index])
+                .mapToObj(String::valueOf)
+                .reduce("", String::concat);
+        long concatLong = Long.parseLong(concatString);
+
+        return checkOperations(targetValue, numbers, concatLong, index + 1);
     }
 
     private static boolean testAddition(long targetValue, long currentValue, long[] numbers, int index) {
