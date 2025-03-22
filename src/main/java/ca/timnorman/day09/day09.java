@@ -3,6 +3,7 @@ package ca.timnorman.day09;
 import ca.timnorman.utils.InputReader;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class day09 {
@@ -40,8 +41,7 @@ public class day09 {
         int index = 0;
         while (index < findRightmostMemoryBlock(expandedDisk)) {
             if (expandedDisk.get(index).isEmpty) {
-                expandedDisk.set(index, expandedDisk.get(findRightmostMemoryBlock(expandedDisk)));
-                expandedDisk.set(findRightmostMemoryBlock(expandedDisk), new Block(true, -1));
+                Collections.swap(expandedDisk, index, findRightmostMemoryBlock(expandedDisk));
             }
             index++;
         }
